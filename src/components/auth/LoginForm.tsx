@@ -3,6 +3,8 @@ import { auth } from '../../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { getErrorMessage } from '../../utils';
 import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../../store/actions/authActions';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -10,14 +12,15 @@ const LoginForm: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    console.log('clicked')
     e.preventDefault();
 
     try {
-      await signInWithEmailAndPassword(auth, email, password)
-      history.push('/homepage')
+      await signInWithEmailAndPassword(auth, email, password);
+      dispatch(loginAction());
+      history.push('/homepage');
     } catch (error: any) {
       const regex = /auth\/(.*?)\)/;
       const regexMatch = error.message.match(regex);
