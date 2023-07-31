@@ -1,7 +1,9 @@
 import IRoute from "../interfaces/routes";
 import AuthPage from "../pages/AuthPage";
+import Favorites from "../pages/Favorites";
 import HomePage from "../pages/HomePage";
 import LandingPage from "../pages/LandingPage";
+import UserProfile from "../pages/UserProfile";
 
 const routes: IRoute[] = [
   {
@@ -20,6 +22,18 @@ const routes: IRoute[] = [
     path: '/homepage',
     name: 'Home Page',
     component: HomePage,
+    exact: true,
+  },
+  {
+    path: '/profile',
+    name: 'Profile Page',
+    component: UserProfile,
+    exact: true,
+  },
+  {
+    path: '/favorites',
+    name: 'Favorites Page',
+    component: Favorites,
     exact: true,
   },
 ]
