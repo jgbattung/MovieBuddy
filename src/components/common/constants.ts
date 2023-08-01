@@ -6,3 +6,7 @@ export enum AuthError {
   WEAK_PASSWORD = 'Password too weak. Please create another password',
   MISSING_PASSWORD = 'Please enter a password.'
 }
+
+export enum UserActionTypes {
+  SET_USER_DATA = 'SET_USER_DATA',
+}
