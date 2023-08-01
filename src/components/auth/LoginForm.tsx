@@ -5,6 +5,9 @@ import { getErrorMessage } from '../../utils';
 import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { loginAction } from '../../store/actions/authActions';
+import { fetchAndSetUserData } from '../../utils/firebaseFunctions';
+import { setUserData } from '../../store/actions/userActions';
+import { IUserData } from '../../interfaces/userData';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -21,6 +24,12 @@ const LoginForm: React.FC = () => {
       await signInWithEmailAndPassword(auth, email, password);
       dispatch(loginAction());
       history.push('/homepage');
+
+      const userData = await fetchAndSetUserData()
+      if (userData) {
+        dispatch(setUserData(userData as IUserData));
+        console.log('Success');
+      }
     } catch (error: any) {
       const regex = /auth\/(.*?)\)/;
       const regexMatch = error.message.match(regex);
