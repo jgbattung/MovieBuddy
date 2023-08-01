@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { auth } from '../../firebase';
-import { getFirestore } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../../firebase';
+import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth';
+import { addDoc, collection } from 'firebase/firestore';
 import { getErrorMessage } from '../../utils';
 
 const RegisterForm: React.FC = () => {
   const [firstName, setFirstName] = useState<string>('');
-  const [lasttName, setLastName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -17,9 +16,19 @@ const RegisterForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password)
-      console.log('registered')
+      const userCredential: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+      if (userCredential.user) {
+        await addDoc(collection(db, "users"), {
+          uid: userCredential.user.uid,
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+        })
+        console.log('registered') 
+      }
     } catch (error: any) {
+      console.log(error)
       const regex = /auth\/(.*?)\)/;
       const regexMatch = error.message.match(regex);
       const errorText = regexMatch && regexMatch[1];
@@ -55,7 +64,7 @@ const RegisterForm: React.FC = () => {
             id="lasst-name" 
             type="text" 
             placeholder="Last name"
-            value={lasttName}
+            value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
           />
