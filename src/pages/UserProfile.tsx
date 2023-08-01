@@ -1,15 +1,15 @@
 import React from 'react'
 import IPage from '../interfaces/page'
-import Home from '../components/features/Home'
 import Header from '../components/common/Header'
+import User from '../components/features/User'
 
-const HomePage:React.FunctionComponent<IPage> = props => {
+const UserProfile: React.FunctionComponent<IPage> = props => {
   return (
     <div>
       <Header />
-      <Home />
+      <User />
     </div>
   )
 }
 
-export default HomePage
+export default UserProfile
