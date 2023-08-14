@@ -10,3 +10,9 @@ export enum AuthError {
 export enum UserActionTypes {
   SET_USER_DATA = 'SET_USER_DATA',
 }
+
+export enum MovieActionTypes {
+  FETCH_MOVIES_REQUEST = 'FETCH_MOVIES_REQUEST',
+  FETCH_MOVIES_SUCCESS = 'FETCH_MOVIES_SUCCESS',
+  FETCH_MOVIES_FAILURE = 'FETCH_MOVIES_FAILURE',
+}

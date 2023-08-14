@@ -7,7 +7,9 @@ import { Provider } from 'react-redux';
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <div className='app-container'>
+      <App />
+    </div>
   </Provider>,
   document.getElementById('root')
 );
