@@ -1,9 +1,10 @@
 import React from 'react'
+import SearchBar from './SearchBar'
 
 const Home = () => {
   return (
     <div>
-      <h1>MovieBuddy</h1>
+      <SearchBar />
     </div>
   )
 }
