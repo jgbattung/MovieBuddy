@@ -6,6 +6,10 @@ module.exports = {
   theme: {
     extend: {},
   },
+  variants: {
+    backgroundColor: ['responsive', 'hover', 'focus', 'active', 'disabled'],
+    textColor: ['responsive', 'hover', 'focus', 'active', 'disabled'],
+  },
   plugins: [],
 }
 

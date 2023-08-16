@@ -16,3 +16,7 @@ export enum MovieActionTypes {
   FETCH_MOVIES_SUCCESS = 'FETCH_MOVIES_SUCCESS',
   FETCH_MOVIES_FAILURE = 'FETCH_MOVIES_FAILURE',
 }
+
+export enum LoadingActionTypes {
+  SET_LOADING = "SET_LOADING"
+}

@@ -18,24 +18,24 @@ export const fetchMovieFailure = (error: string): MovieAction => ({
 });
 
 export const fetchMovies = (searchQuery: string) => {
-  return (dispatch: Dispatch<MovieAction>) => {
-    dispatch(fetchMoviesRequest());
-    axios
-      .get('https://imdb8.p.rapidapi.com/auto-complete', {
+  return async (dispatch: Dispatch<MovieAction>) => {
+    try {
+      dispatch(fetchMoviesRequest());
+
+      const response = await axios.get('https://imdb8.p.rapidapi.com/auto-complete', {
         params: { q: searchQuery },
         headers: {
           'X-RapidAPI-Key': '846d571b90msh4582e19480a6db6p18d4e8jsna47bfdf60c0f',
           'X-RapidAPI-Host': 'imdb8.p.rapidapi.com',
         },
-      })
-      .then((response) => {
-        const movies = response.data?.d || [];
-        dispatch(fetchMoviesSuccess(movies));
-      })
-      .catch((error) => {
-        dispatch(fetchMovieFailure(error.message))
-      })
-  }
+      });
+
+      const movies = response.data?.d || []; 
+      dispatch(fetchMoviesSuccess(movies));
+    } catch (error: any) {
+      dispatch(fetchMovieFailure(error.message))
+    }
+  };
 }
 
 
