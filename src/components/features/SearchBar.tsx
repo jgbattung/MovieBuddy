@@ -4,6 +4,7 @@ import { fetchMovies } from '../../store/actions/movieActions';
 import { RootState } from '../../store';
 import { Movie } from '../../interfaces/movie';
 import { setLoading } from '../../store/actions/loadingActions';
+import { Link } from 'react-router-dom';
 
 const SearchBar: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -76,12 +77,12 @@ const SearchBar: React.FC = () => {
           {searchResults
           .filter((movie: Movie) => movie.qid && ['movie', 'tvSeries', 'tvMiniSeries', 'tvMovie', 'short'].includes(movie.qid))
           .map((movie: Movie) => (
-            <div key={movie.id} className='max-h-96 min-h-[24rem] overflow-hidden rounded-lg bg-stone-900 p-3 shadow-lg'>
+            <Link to="/moviedetail" key={movie.id} className='max-h-96 min-h-[24rem] overflow-hidden rounded-lg bg-stone-900 p-3 shadow-lg hover:bg-stone-700'>
               <img src={movie.i?.imageUrl ? movie.i.imageUrl : imageNotFoundLink} alt={movie.l} className='mb-4 h-4/6 w-full rounded-lg object-cover' />
               <h2 className='text-xl font-semibold text-white'>{movie.l}</h2>
               <p className='text-sm text-gray-400'>{movie.y}</p>
               <p className='text-xs font-bold text-gray-400'>{movie.qid && formatQid(movie.qid)}</p>
-            </div>
+            </Link>
           ))}
         </div>
       )}
