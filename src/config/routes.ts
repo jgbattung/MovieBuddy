@@ -3,6 +3,7 @@ import AuthPage from "../pages/AuthPage";
 import Favorites from "../pages/Favorites";
 import HomePage from "../pages/HomePage";
 import LandingPage from "../pages/LandingPage";
+import MovieDetailPage from "../pages/MovieDetailPage";
 import UserProfile from "../pages/UserProfile";
 
 const routes: IRoute[] = [
@@ -34,6 +35,12 @@ const routes: IRoute[] = [
     path: '/favorites',
     name: 'Favorites Page',
     component: Favorites,
+    exact: true,
+  },
+  {
+    path: '/moviedetail',
+    name: 'Movie Detail Page',
+    component: MovieDetailPage,
     exact: true,
   },
 ]
