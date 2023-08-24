@@ -77,7 +77,7 @@ const SearchBar: React.FC = () => {
           {searchResults
           .filter((movie: Movie) => movie.qid && ['movie', 'tvSeries', 'tvMiniSeries', 'tvMovie', 'short'].includes(movie.qid))
           .map((movie: Movie) => (
-            <Link to="/moviedetail" key={movie.id} className='max-h-96 min-h-[24rem] overflow-hidden rounded-lg bg-stone-900 p-3 shadow-lg hover:bg-stone-700'>
+            <Link to="/moviedetail" key={movie.id} className='max-h-96 min-h-[24rem] overflow-hidden rounded-lg bg-stone-900 p-3 shadow-lg transition ease-in-out delay-100 hover:bg-stone-700 hover:-translate-y-1 hover:scale-110'>
               <img src={movie.i?.imageUrl ? movie.i.imageUrl : imageNotFoundLink} alt={movie.l} className='mb-4 h-4/6 w-full rounded-lg object-cover' />
               <h2 className='text-xl font-semibold text-white'>{movie.l}</h2>
               <p className='text-sm text-gray-400'>{movie.y}</p>
