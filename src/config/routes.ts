@@ -38,7 +38,7 @@ const routes: IRoute[] = [
     exact: true,
   },
   {
-    path: '/moviedetail',
+    path: '/moviedetail/:movieId',
     name: 'Movie Detail Page',
     component: MovieDetailPage,
     exact: true,

@@ -7,3 +7,7 @@ export default interface IRoute extends RouteProps {
   exact: boolean;
   component:  ComponentType<any>;
 }
+
+export interface RouteParams {
+  movieId: string;
+}
