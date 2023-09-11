@@ -18,3 +18,28 @@ export interface IMovieOverviewDetails {
     text: string;
   }
 }
+
+export interface IMovieCastCredits {
+  id: string;
+  name: string;
+  image: {
+    url: string;
+  },
+  characters: string[];
+}
+
+export interface IMovieCrewCredits {
+  image: {
+    url: string;
+  };
+  name: string;
+  id: string;
+}
+
+export interface IMovieFullCredits {
+  id: string;
+  cast: IMovieCastCredits[];
+  crew: {
+    director: IMovieCrewCredits[];
+  }
+}

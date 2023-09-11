@@ -15,11 +15,28 @@ const getOverviewDetails = async (movieId: string) => {
     }
     });
 
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.log("Error" + error)
+    console.log("Overview Error" + error)
   }
 }
 
-export { getOverviewDetails };
+const getFullCredits = async (moveId: string) => {
+  try {
+    const response = await axios.get('https://imdb8.p.rapidapi.com/title/get-full-credits', {
+      params: {
+        tconst: moveId
+      },
+      headers: {
+        'X-RapidAPI-Key': API_KEY,
+        'X-RapidAPI-Host': API_HOST
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Credits Error" + error)
+  }
+}
+
+export { getOverviewDetails, getFullCredits };
