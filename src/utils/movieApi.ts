@@ -12,7 +12,7 @@ const getOverviewDetails = async (movieId: string) => {
       headers: {
         'X-RapidAPI-Key': API_KEY,
         'X-RapidAPI-Host': API_HOST
-      }
+    }
     });
 
     console.log(response.data);
