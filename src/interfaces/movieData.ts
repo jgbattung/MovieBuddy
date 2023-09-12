@@ -14,7 +14,10 @@ export interface IMovieOverviewDetails {
     rating: number;
   },
   genres: string[];
-  plotSummary: {
+  plotSummary?: {
+    text: string;
+  }
+  plotOutline: {
     text: string;
   }
 }
