@@ -40,13 +40,13 @@ const MovieDetail: React.FC = () => {
       <p className='text-white'>{overviewDetails?.title.seriesStartYear && `${overviewDetails?.title.seriesStartYear} to ${overviewDetails?.title.seriesEndYear}`}</p>
       <p className='text-white'>{overviewDetails?.title.numberOfEpisodes}</p>
       <p className='text-white'>{`${overviewDetails?.ratings.rating}/10`}</p>
-      <p className='text-white'>{`${overviewDetails?.plotSummary.text}`}</p>
+      <p className='text-white'>{overviewDetails?.plotSummary ? overviewDetails.plotSummary.text : overviewDetails?.plotOutline.text}</p>
 
       <p className='text-white font-bold'>
         {fullCredits?.crew.director.map((director: IMovieCrewCredits) => (
           <div key={director.id}>
             <p className='text-white font-extrabold'>{`Director: ${director.name}`}</p>
-            <img src={director?.image.url ? director.image.url : imageNotFoundLink} alt={director.name} className='w-40 rounded-lg object-cover' />
+            <img src={director?.image ? director.image.url : imageNotFoundLink} alt={director.name} className='w-40 rounded-lg object-cover' />
           </div>
         ))}
       </p>
@@ -55,7 +55,7 @@ const MovieDetail: React.FC = () => {
         <div key={castMember.id}>
           <p className='text-white font-extrabold'>{castMember.name}</p>
           <p className='text-white'>{castMember.characters.join(' | ')}</p>
-          <img src={castMember?.image.url ? castMember.image.url : imageNotFoundLink} alt={castMember.name} className='w-40 rounded-lg object-cover' />
+          <img src={castMember?.image ? castMember.image.url : imageNotFoundLink} alt={castMember.name} className='w-40 rounded-lg object-cover' />
         </div>
       ))};
     </div>
