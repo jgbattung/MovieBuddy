@@ -4,15 +4,16 @@ import { RouteParams } from '../../interfaces/routes';
 import { getOverviewDetails, getFullCredits } from '../../utils/movieApi';
 import { IMovieOverviewDetails, IMovieFullCredits, IMovieCastCredits, IMovieCrewCredits } from '../../interfaces/movieData';
 import { formatQid, imageNotFoundLink } from '../../utils/utils';
+import { auth } from '../../firebase';
+import { addToFavorites } from '../../utils/firebaseFunctions';
 
 const MovieDetail: React.FC = () => {
   const { movieId } = useParams<RouteParams>();
   const [overviewDetails, setOverviewDetails] = useState<IMovieOverviewDetails>();
   const [fullCredits, setFullCredits] = useState<IMovieFullCredits>();
+  const currentUser = auth.currentUser;
 
   useEffect(() => {
-    console.log(movieId)
-
     const fetchData = async () => {
       try {
         const movieDetails = await getOverviewDetails(movieId)
@@ -28,13 +29,20 @@ const MovieDetail: React.FC = () => {
 
   }, [movieId])
 
-
+  const handleAddToFavorites = () => {
+    addToFavorites(movieId);
+  }
 
   return (
     <div>
       <h1 className='text-white'>{overviewDetails?.title.title}</h1>
       <img src={overviewDetails?.title.image ? overviewDetails?.title.image.url : imageNotFoundLink} alt={overviewDetails?.title.title} className='w-40 rounded-lg object-cover' />
-      <p className='text-white'>{overviewDetails?.title && formatQid(overviewDetails.title.titleType)}</p>
+      {currentUser &&       
+        <button onClick={handleAddToFavorites} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+          Add to Favorites
+        </button>
+      }
+    <p className='text-white'>{overviewDetails?.title && formatQid(overviewDetails.title.titleType)}</p>
       <p className='text-white'>{overviewDetails?.title.year}</p>
       <p className='text-white'>{overviewDetails?.genres.join(' | ')}</p>
       <p className='text-white'>{overviewDetails?.title.seriesStartYear && `${overviewDetails?.title.seriesStartYear} to ${overviewDetails?.title.seriesEndYear}`}</p>
