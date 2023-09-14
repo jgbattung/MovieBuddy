@@ -41,4 +41,4 @@ export const addToFavorites = async (movieId: string) => {
     }
 
   }
-} 
+};
