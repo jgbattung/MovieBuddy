@@ -1,10 +1,10 @@
 import IRoute from "../interfaces/routes";
-import AuthPage from "../pages/AuthPage";
 import Favorites from "../pages/Favorites";
 import HomePage from "../pages/HomePage";
 import LandingPage from "../pages/LandingPage";
 import MovieDetailPage from "../pages/MovieDetailPage";
 import UserProfile from "../pages/UserProfile";
+import LoginPage from "../pages/LoginPage";
 
 const routes: IRoute[] = [
   {
@@ -14,9 +14,9 @@ const routes: IRoute[] = [
     exact: true,
   },
   {
-    path: '/authentication',
+    path: '/login',
     name: 'Authentication Page',
-    component: AuthPage,
+    component: LoginPage,
     exact: true,
   },
   {

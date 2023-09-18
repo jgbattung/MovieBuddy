@@ -8,6 +8,7 @@ import { loginAction } from '../../store/actions/authActions';
 import { fetchAndSetUserData } from '../../utils/firebaseFunctions';
 import { setUserData } from '../../store/actions/userActions';
 import { IUserData } from '../../interfaces/userData';
+import { Link } from 'react-router-dom';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -40,47 +41,62 @@ const LoginForm: React.FC = () => {
   }
 
   return (
-    <div className="w-full max-w-xs">
-      <form onSubmit={handleLogin} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <h3>Login</h3>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-            Email
-          </label>
-          <input 
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-            id="email" 
-            type="email" 
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+    <div 
+      className="py-6">
+      <div className="mx-auto max-w-xs overflow-hidden rounded-lg bg-white shadow-lg lg:max-w-xl">
+        <div className="w-full p-8">
+          <h2 className="text-center text-2xl font-semibold text-gray-700">MovieBuddy</h2>
+          <p className="text-center text-xl text-gray-600">Welcome back!</p>
+          <div className="mt-4 flex items-center justify-between">
+            <span className="w-1/5 border-b lg:w-1/4"></span>
+            <p className="text-center text-xs uppercase text-gray-500">Login with email</p>
+            <span className="w-1/5 border-b lg:w-1/4"></span>
+          </div>
+          <form onSubmit={handleLogin}>
+            <div className="mt-4">
+              <label className="mb-2 block text-sm font-bold text-gray-700" htmlFor="email">Email</label>
+              <input 
+                className="focus:shadow-outline block w-full appearance-none rounded border border-gray-300 bg-gray-200 px-4 py-2 text-gray-700 focus:outline-none" 
+                id="email"
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)} 
+              />
+            </div>
+            <div className="mt-4">
+              <label className="mb-2 block text-sm font-bold text-gray-700" htmlFor="password">Password</label>
+              <input 
+                className="focus:shadow-outline block w-full appearance-none rounded border border-gray-300 bg-gray-200 px-4 py-2 text-gray-700 focus:outline-none" 
+                id="password" 
+                type="password" 
+                placeholder="***********"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="mt-8">
+              <button 
+                className="w-full rounded bg-gray-700 px-4 py-2 font-bold text-white hover:bg-gray-600"
+                type="submit"
+                >
+                  Login
+              </button>
+            </div>
+            {errorMessage && <p className="text-red-500 text-xs italic">{errorMessage}</p>}
+          </form>
+          <div className="mt-4 flex items-center justify-center">
+            <p className="text-xs text-gray-500">
+              New to MovieBuddy?
+              <Link to='/authentication' className="text-xs font-semibold text-gray-500">&nbsp;Register here</Link>
+            </p>
+          </div>
         </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-            Password
-          </label>
-          <input 
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" 
-            id="password" 
-            type="password" 
-            placeholder="***********"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className="flex items-center justify-between">
-          <button 
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
-            type="submit"
-          >
-            Sign In
-          </button>
-        </div>
-        {errorMessage && <p className="text-red-500 text-xs italic">{errorMessage}</p>}
-      </form>
+      </div>
     </div>
   )
 }
+
+
 
 export default LoginForm
