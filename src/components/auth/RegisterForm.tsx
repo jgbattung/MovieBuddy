@@ -48,10 +48,6 @@ const RegisterForm: React.FC = () => {
       dispatch(setLoading(false));
     }
   }
-  
-  useEffect(() => {
-    console.log(isLoading);
-  }, [isLoading]);
 
   return (
 <div className="mx-auto w-1/3 overflow-hidden rounded-lg bg-white shadow-lg p-10">
