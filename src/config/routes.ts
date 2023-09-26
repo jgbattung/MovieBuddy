@@ -5,6 +5,7 @@ import LandingPage from "../pages/LandingPage";
 import MovieDetailPage from "../pages/MovieDetailPage";
 import UserProfile from "../pages/UserProfile";
 import LoginPage from "../pages/LoginPage";
+import RegistrationPage from "../pages/RegistrationPage";
 
 const routes: IRoute[] = [
   {
@@ -15,8 +16,14 @@ const routes: IRoute[] = [
   },
   {
     path: '/login',
-    name: 'Authentication Page',
+    name: 'Login Page',
     component: LoginPage,
+    exact: true,
+  },
+  {
+    path: '/registration',
+    name: 'Registration Page',
+    component: RegistrationPage,
     exact: true,
   },
   {
