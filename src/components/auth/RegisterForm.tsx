@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { auth, db } from '../../firebase';
 import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore';
 import { getErrorMessage } from '../../utils';
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { RootState } from '../../store';
+import { useSelector } from 'react-redux';
+import { setLoading } from '../../store/actions/loadingActions';
+import { useDispatch } from 'react-redux';
 
 const RegisterForm: React.FC = () => {
   const [firstName, setFirstName] = useState<string>('');
@@ -10,12 +16,16 @@ const RegisterForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const isLoading = useSelector((state: RootState) => state.loading.isLoading);
+
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    console.log('clicked')
     e.preventDefault();
 
     try {
+      dispatch(setLoading(true));
       const userCredential: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
 
       if (userCredential.user) {
@@ -25,7 +35,7 @@ const RegisterForm: React.FC = () => {
           firstName: firstName,
           lastName: lastName,
         })
-        console.log('registered') 
+        history.push('/login')
       }
     } catch (error: any) {
       console.log(error)
@@ -34,79 +44,87 @@ const RegisterForm: React.FC = () => {
       const errorText = regexMatch && regexMatch[1];
       setErrorMessage(getErrorMessage(errorText));
       console.log(errorText)
+    } finally {
+      dispatch(setLoading(false));
     }
   }
+  
+  useEffect(() => {
+    console.log(isLoading);
+  }, [isLoading]);
 
   return (
-    <div className="w-full max-w-xs">
-      <form onSubmit={handleRegister} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <h3>Register</h3>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-            First Name
-          </label>
-          <input 
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-            id="first-name" 
-            type="text" 
-            placeholder="First name"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
+<div className="mx-auto w-1/3 overflow-hidden rounded-lg bg-white shadow-lg p-10">
+      <div className="w-full p-8">
+        <h2 className="text-center text-4xl font-bold text-gray-700">MovieBuddy</h2>
+        <div className="mt-4 flex items-center justify-between">
+          <span className="w-1/5 border-b lg:w-1/4"></span>
+          <p className="text-center text-xs uppercase text-gray-500">Create a new account</p>
+          <span className="w-1/5 border-b lg:w-1/4"></span>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-            Last Name
-          </label>
-          <input 
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-            id="lasst-name" 
-            type="text" 
-            placeholder="Last name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
+        <form onSubmit={handleRegister}>
+          <div className="mt-4">
+            <label className="mb-2 block text-sm font-bold text-gray-700" htmlFor="first-name">First Name</label>
+            <input 
+              className="focus:shadow-outline block w-full appearance-none rounded border border-gray-300 bg-gray-200 px-4 py-2 text-gray-700 focus:outline-none" 
+              id="first-name"
+              type="text"
+              placeholder="First name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)} 
+            />
+          </div>
+          <div className="mt-4">
+            <label className="mb-2 block text-sm font-bold text-gray-700" htmlFor="last-name">Last Name</label>
+            <input 
+              className="focus:shadow-outline block w-full appearance-none rounded border border-gray-300 bg-gray-200 px-4 py-2 text-gray-700 focus:outline-none" 
+              id="last-name" 
+              type="text" 
+              placeholder="Last name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </div>
+          <div className="mt-4">
+            <label className="mb-2 block text-sm font-bold text-gray-700" htmlFor="email">Email</label>
+            <input 
+              className="focus:shadow-outline block w-full appearance-none rounded border border-gray-300 bg-gray-200 px-4 py-2 text-gray-700 focus:outline-none" 
+              id="email" 
+              type="email" 
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mt-4">
+            <label className="mb-2 block text-sm font-bold text-gray-700" htmlFor="password">Password</label>
+            <input 
+              className="focus:shadow-outline block w-full appearance-none rounded border border-gray-300 bg-gray-200 px-4 py-2 text-gray-700 focus:outline-none" 
+              id="password" 
+              type="password" 
+              placeholder="*******"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className="mt-8">
+            <button 
+              className="w-full rounded bg-gray-700 px-4 py-2 font-bold text-white hover:bg-gray-600 disabled:bg-gray-400"
+              type="submit"
+              disabled={isLoading}
+              >
+                {!isLoading ? 'Register' : 'Creating your account...'}
+            </button>
+          </div>
+          {errorMessage && <p className="text-red-500 text-xs italic">{errorMessage}</p>}
+        </form>
+        <div className="mt-4 flex items-center justify-center">
+          <p className="text-xs text-gray-500">
+            Already have an account?
+            <Link to='/registration' className="text-xs font-semibold text-gray-500">&nbsp;Login here</Link>
+          </p>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-            Email
-          </label>
-          <input 
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-            id="email" 
-            type="email" 
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-            Password
-          </label>
-          <input 
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" 
-            id="password" 
-            type="password" 
-            placeholder="***********"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="flex items-center justify-between">
-          <button 
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
-            type="submit"
-          >
-            Register
-          </button>
-        </div>
-        {errorMessage && <p className="text-red-500 text-xs italic">{errorMessage}</p>}
-      </form>
+      </div>
     </div>
   )
 }

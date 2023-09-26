@@ -3,7 +3,6 @@ import IPage from '../interfaces/page'
 import RegisterForm from '../components/auth/RegisterForm'
 
 const RegistrationPage: React.FunctionComponent<IPage> = props => {
-  console.log('auth page')
   return (
     <div 
       className='flex items-center justify-center h-screen'       
