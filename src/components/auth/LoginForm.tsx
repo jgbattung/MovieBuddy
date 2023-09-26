@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { auth } from '../../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { getErrorMessage } from '../../utils';
 import { useHistory } from 'react-router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from '../../store/actions/authActions';
 import { fetchAndSetUserData } from '../../utils/firebaseFunctions';
 import { setUserData } from '../../store/actions/userActions';
 import { IUserData } from '../../interfaces/userData';
 import { Link } from 'react-router-dom';
+import { RootState } from '../../store';
+import { setLoading } from '../../store/actions/loadingActions';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const isLoading = useSelector((state: RootState) => state.loading.isLoading);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -22,6 +25,7 @@ const LoginForm: React.FC = () => {
     e.preventDefault();
 
     try {
+      dispatch(setLoading(true));
       await signInWithEmailAndPassword(auth, email, password);
       dispatch(loginAction());
       history.push('/homepage');
@@ -37,6 +41,8 @@ const LoginForm: React.FC = () => {
       const errorText = regexMatch && regexMatch[1];
       setErrorMessage(getErrorMessage(errorText));
       console.log(error);
+    } finally {
+      dispatch(setLoading(false));
     }
   }
 
@@ -75,10 +81,10 @@ const LoginForm: React.FC = () => {
           </div>
           <div className="mt-8">
             <button 
-              className="w-full rounded bg-gray-700 px-4 py-2 font-bold text-white hover:bg-gray-600"
+              className="w-full rounded bg-gray-700 px-4 py-2 font-bold text-white hover:bg-gray-600 disabled:bg-gray-400"
               type="submit"
               >
-                Login
+                {isLoading ? 'Logging you in ...' : 'Log in'}
             </button>
           </div>
           {errorMessage && <p className="text-red-500 text-xs italic">{errorMessage}</p>}
