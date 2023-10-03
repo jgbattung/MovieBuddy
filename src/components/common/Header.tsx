@@ -32,7 +32,7 @@ const Header: React.FC = () => {
   return (
     <nav className="bg-slate-950">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-      <p className="self-center text-3xl font-semibold whitespace-nowrap dark:text-white">MovieBuddy</p>
+      <p className="self-center text-3xl font-semibold whitespace-nowrap text-white">Movie<span className='text-3xl font-bold text-indigo-600'>Buddy</span></p>
       <div className="flex md:order-2">
         {isLoggedIn ? (
           <button
