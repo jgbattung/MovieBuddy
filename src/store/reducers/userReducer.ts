@@ -6,6 +6,7 @@ const initialState: IUserData = {
   firstName: '',
   lastName: '',
   email: '',
+  favorites: [],
 }
 
 const userReducer = (state = initialState, action: SetUserDataAction): IUserData => {

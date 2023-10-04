@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 
 ReactDOM.render(
   <Provider store={store}>
-    <div className='app-container'>
+    <div className='app-container bg-slate-950'>
       <App />
     </div>
   </Provider>,

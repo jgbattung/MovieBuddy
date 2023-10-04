@@ -1,5 +1,5 @@
 import IRoute from "../interfaces/routes";
-import Favorites from "../pages/Favorites";
+import Favorites from "../pages/FavoritesPage";
 import HomePage from "../pages/HomePage";
 import LandingPage from "../pages/LandingPage";
 import MovieDetailPage from "../pages/MovieDetailPage";
