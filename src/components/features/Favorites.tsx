@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import { getOverviewDetails } from '../../utils/movieApi';
-import { Movie } from '../../interfaces/movie';
+import { useHistory } from 'react-router';
 import { IMovieOverviewDetails } from '../../interfaces/movieData';
 
 const Favorites: React.FC = () => {
   const userData = useSelector((state: RootState) => state.userData)
   const { firstName, lastName, email, favorites } = userData;
   const [favoriteMovies, setFavoriteMovies] = useState<IMovieOverviewDetails[]>([])
+  const history = useHistory();
 
   useEffect(() => {
     const fetchFavoriteMovies = async () => {
@@ -25,19 +26,14 @@ const Favorites: React.FC = () => {
 
         const filteredFavoriteMovieDetails = favoriteMovieDetails.filter((movie) => movie !== null)
 
-        setFavoriteMovies(filteredFavoriteMovieDetails);
+        setFavoriteMovies([...filteredFavoriteMovieDetails]);
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchFavoriteMovies();
-  }, [favorites]);
-
-  const handleClick = () => {
-    console.log(favorites)
-    console.log(favoriteMovies)
-  }
+  }, [favorites, history.location.pathname]);
 
   return (
     <div className='mx-80 mt-6'>
@@ -45,8 +41,8 @@ const Favorites: React.FC = () => {
         <div className='col-span-3 bg-slate-800'>
           {/* <button onClick={handleClick}>FAVES</button> */}
           <div className='bg-black text-white'>
-            <p className='pl-4 pt-4 text-2xl font-bold'>Your Favorites</p>
-            <p className='pl-4 pb-4'>{favorites.length} Titles</p>
+            <p className='pl-4 pt-4 text-4xl font-semibold'>Your Favorites</p>
+            <p className='pt-2 pl-4 pb-4'>{favorites.length} Titles</p>
           </div>
           <div className='px-5'>
             {favoriteMovies.map((movie: IMovieOverviewDetails) => (

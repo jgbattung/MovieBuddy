@@ -10,6 +10,7 @@ import { collection, getDocs, query, where } from '@firebase/firestore';
 import { useSelector, useDispatch } from 'react-redux';
 import { setLoading } from '../../store/actions/loadingActions';
 import { RootState } from '../../store';
+import { addFavoriteMovie } from '../../store/actions/userActions';
 
 const MovieDetail: React.FC = () => {
   const { movieId } = useParams<RouteParams>();
@@ -40,6 +41,7 @@ const MovieDetail: React.FC = () => {
 
   const handleAddToFavorites = () => {
     addToFavorites(movieId);
+    dispatch(addFavoriteMovie(movieId));
   }
 
   useEffect(() => {

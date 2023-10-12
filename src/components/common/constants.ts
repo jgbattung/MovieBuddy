@@ -9,6 +9,7 @@ export enum AuthError {
 
 export enum UserActionTypes {
   SET_USER_DATA = 'SET_USER_DATA',
+  ADD_FAVORITE_MOVIE = "ADD_FAVORITE_MOVIE",
 }
 
 export enum MovieActionTypes {
