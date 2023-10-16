@@ -3,13 +3,12 @@
 @tailwind utilities;
 
 .app-container {
-  background-color: #121212;
   background-size: cover;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: #121212;
+  background-color: #030616;
   background-size: cover;
 }
