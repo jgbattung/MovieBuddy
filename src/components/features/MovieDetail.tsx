@@ -64,6 +64,27 @@ const MovieDetail: React.FC = () => {
 
   }, [movieId]);
 
+  const convertMinutesToHours = (mins: number | undefined) => {
+    if (!mins) {
+      return "";
+    }
+
+    if (mins < 60) {
+      return `${mins}m`
+    }
+
+    const hours = Math.floor(mins / 60);
+    const minutes = mins % 60;
+
+    if (minutes === 0) {
+      return `${hours}h`;
+    }
+
+    return `${hours}h ${minutes}m`;
+  }
+
+  console.log(movieTrivia?.spoilt);
+
   return (
     <div>
       {!isLoading ? 
@@ -72,7 +93,7 @@ const MovieDetail: React.FC = () => {
           <div className="flex justify-between">
             <div className="flex flex-col">
               <h1 className="text-4xl font-bold text-white">{overviewDetails?.title.title}</h1>
-              <div className="text-sm font-medium text-gray-400">{overviewDetails?.title.year} | 2h 22m</div>
+              <div className="text-sm font-medium text-gray-400">{overviewDetails?.title.year} | {convertMinutesToHours(overviewDetails?.title.runningTimeInMinutes)}</div>
             </div>
             <div className="flex flex-col items-center">
               <div className="text-sm font-bold text-gray-400 tracking-widest">IMDb Rating</div>
