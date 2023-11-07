@@ -9,9 +9,11 @@ export interface IMovieOverviewDetails {
     numberOfEpisodes?: number;
     seriesStartYear?: number;
     seriesEndYear?: number;
+    runningTimeInMinutes? : number;
   },
   ratings: {
     rating: number;
+    ratingCount?: number;
   },
   genres: string[];
   plotSummary?: {
@@ -44,5 +46,6 @@ export interface IMovieFullCredits {
   cast: IMovieCastCredits[];
   crew: {
     director: IMovieCrewCredits[];
+    writer: IMovieCrewCredits[];
   }
 }

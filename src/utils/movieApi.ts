@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_KEY: string = '846d571b90msh4582e19480a6db6p18d4e8jsna47bfdf60c0f';
+const API_KEY: string = '4f301f98acmsh026731243c74ab5p1c279djsn9b4d74f7f35d';
 const API_HOST: string = 'imdb8.p.rapidapi.com';
 
 const getOverviewDetails = async (movieId: string) => {
@@ -18,6 +18,7 @@ const getOverviewDetails = async (movieId: string) => {
     return response.data;
   } catch (error) {
     console.log("Overview Error" + error)
+    throw error
   }
 }
 
@@ -36,6 +37,7 @@ const getFullCredits = async (moveId: string) => {
     return response.data;
   } catch (error) {
     console.log("Credits Error" + error)
+    throw error
   }
 }
 

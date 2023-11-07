@@ -25,8 +25,8 @@ export const fetchMovies = (searchQuery: string) => {
       const response = await axios.get('https://imdb8.p.rapidapi.com/auto-complete', {
         params: { q: searchQuery },
         headers: {
-          'X-RapidAPI-Key': '846d571b90msh4582e19480a6db6p18d4e8jsna47bfdf60c0f',
-          'X-RapidAPI-Host': 'imdb8.p.rapidapi.com',
+          'X-RapidAPI-Key': '4f301f98acmsh026731243c74ab5p1c279djsn9b4d74f7f35d',
+          'X-RapidAPI-Host': 'imdb8.p.rapidapi.com'
         },
       });
 
