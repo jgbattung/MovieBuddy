@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { RouteParams } from '../../interfaces/routes';
-import { getOverviewDetails, getFullCredits } from '../../utils/movieApi';
-import { IMovieOverviewDetails, IMovieFullCredits, IMovieCastCredits, IMovieCrewCredits } from '../../interfaces/movieData';
+import { getOverviewDetails, getFullCredits, getTrivia } from '../../utils/movieApi';
+import { IMovieOverviewDetails, IMovieFullCredits, IMovieCastCredits, IMovieCrewCredits, ITrivia, ITriviaSpoilt, ITriviaUnspoilt } from '../../interfaces/movieData';
 import { formatQid, imageNotFoundLink } from '../../utils/utils';
 import { auth, db } from '../../firebase';
 import { addToFavorites } from '../../utils/firebaseFunctions';
@@ -16,6 +16,7 @@ const MovieDetail: React.FC = () => {
   const { movieId } = useParams<RouteParams>();
   const [overviewDetails, setOverviewDetails] = useState<IMovieOverviewDetails>();
   const [fullCredits, setFullCredits] = useState<IMovieFullCredits>();
+  const [movieTrivia, setMovieTrivia] = useState<ITrivia>();
   const [isInFavorites, setIsInFavorites] = useState(false);
   const isLoading = useSelector((state: RootState) => state.loading.isLoading);
   const dispatch = useDispatch();
@@ -27,8 +28,10 @@ const MovieDetail: React.FC = () => {
         dispatch(setLoading(true));
         const movieDetails = await getOverviewDetails(movieId)
         const movieCredits = await getFullCredits(movieId);
+        const movieTrivia = await getTrivia(movieId)
         setOverviewDetails(movieDetails);
         setFullCredits(movieCredits);
+        setMovieTrivia(movieTrivia);
         dispatch(setLoading(false));
       } catch (error) {
         throw error;
@@ -173,9 +176,9 @@ const MovieDetail: React.FC = () => {
             {/* <!-- CAROUSEL HERE --> */}
           </div>
           <div className="py-5">
-            <div className="flex items-center just">
+            <div className="flex items-center">
               <p className="font-extrabold text-3xl text-indigo-800">|</p>
-              <p className="font-bold text-2xl">&nbsp;Top Cast</p>
+              <p className="font-bold text-2xl pl-3">Top Cast</p>
             </div>
             <div className="grid grid-cols-2 gap-4 pt-4">
               {fullCredits?.cast.slice(0, 16).map((castMember: IMovieCastCredits) => (
@@ -195,13 +198,18 @@ const MovieDetail: React.FC = () => {
             </div>
           </div>
           <div className="py-5">
-            <div className="flex items-center just">
+            <div className="flex items-center">
               <p className="font-extrabold text-3xl text-indigo-800">|</p>
-              <p className="font-bold text-2xl">&nbsp;Trivia</p>
+              <p className="font-bold text-2xl pl-3">Did you know?</p>
             </div>
+            {movieTrivia?.unspoilt.slice(0,5).map((trivia: ITriviaUnspoilt) => (
+                <div className="bg-slate-200 max-w-2xl overflow-hidden shadow-lg rounded-md mx-5 my-4 px-8 py-5">
+                <p className='text-gray-700'>{trivia.text}</p>
+              </div>
+            ))}
           </div>
           <div className="py-5">
-            <div className="flex items-center just">
+            <div className="flex items-center">
               <p className="font-extrabold text-3xl text-indigo-800">|</p>
               <p className="font-bold text-2xl">&nbsp;More like this</p>
             </div>
