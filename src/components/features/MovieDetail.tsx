@@ -143,7 +143,7 @@ const MovieDetail: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="w-full flex-grow text-black px-52">
+        <div className="w-full flex-grow text-black px-52 bg-slate-100">
           <div className="py-5">
             <div className="flex items-center just">
               <p className="font-extrabold text-3xl text-indigo-800">|</p>
@@ -157,15 +157,20 @@ const MovieDetail: React.FC = () => {
               <p className="font-bold text-2xl">&nbsp;Top Cast</p>
             </div>
             <div className="grid grid-cols-2 gap-4 pt-4">
-              <div className="flex items-center p-3">
-                <div>
-                  <img className="rounded-full h-32 w-32 object-cover" src="https://m.media-amazon.com/images/M/MV5BMjAwNDU2OTc5M15BMl5BanBnXkFtZTgwOTk0ODMyNDE@._V1_.jpg" />
+              {fullCredits?.cast.slice(0, 16).map((castMember: IMovieCastCredits) => (
+                <div className="flex items-center p-3" key={castMember.id}>
+                  <div>
+                    <img
+                      className="rounded-full h-32 w-32 object-cover"
+                      src={castMember?.image ? castMember.image.url : imageNotFoundLink }
+                      alt={castMember.name} />
+                  </div>
+                  <div className="flex flex-col pl-4">
+                    <p className="font-bold text-base">{castMember.name}</p>
+                    <p className="font-light text-gray-500">{castMember.characters[0]}</p>
+                  </div>
                 </div>
-                <div className="flex flex-col pl-4">
-                  <p className="font-bold text-base">Actor Name</p>
-                  <p className="font-light text-gray-500">Character Name</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
           <div className="py-5">
