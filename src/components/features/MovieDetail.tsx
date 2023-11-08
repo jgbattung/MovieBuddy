@@ -132,38 +132,54 @@ const MovieDetail: React.FC = () => {
                 </button>
               ))}
             </div>
-            <div>
-              <p className="text-base text-white">{overviewDetails?.plotSummary ? overviewDetails.plotSummary.text : overviewDetails?.plotOutline.text}</p>
-            </div>
-            <hr className="h-px bg-gray-400 mt-2 mb-2" />
-            <div className="flex">
-                <p className="font-bold text-white pr-3">Director</p>
-                {fullCredits?.crew.director?.map((director: IMovieCrewCredits, index: number) => (
-                  <div key={index} className='flex'>
-                    <p className="text-gray-400">{director.name}</p>
-                    {index < fullCredits.crew.director.length - 1 && <span className='text-gray-500 px-2'>|</span>}
-                  </div>
-                ))}
-            </div>
-            <hr className="h-px bg-gray-400 mt-2 mb-2" />
-            <div className="flex">
-              <p className="font-bold text-white pr-3">Writers</p>
-              {fullCredits?.crew.writer?.map((writer: IMovieCrewCredits, index: number) => (
-                <div key={index} className='flex'>
-                  <p className="text-gray-400">{writer.name}</p>
-                  {index < fullCredits.crew.writer?.length - 1 && <span className='text-gray-500 px-2'>|</span>}
+            <div className='grid grid-cols-4'>
+              <div className='col-span-3'>
+                <div>
+                  <p className="text-base text-white">{overviewDetails?.plotSummary ? overviewDetails.plotSummary.text : overviewDetails?.plotOutline.text}</p>
                 </div>
-              ))}
-            </div>
-            <hr className="h-px bg-gray-400 mt-2 mb-2" />
-            <div className="flex">
-              <p className="font-bold text-white pr-3">Stars</p>
-              {fullCredits?.cast.slice(0, 3).map((castMember: IMovieCastCredits, index: number) => (
-                <div key={index} className='flex'>
-                  <p className="text-gray-400">{castMember.name}</p>
-                  {index < 2 && <span className='text-gray-500 px-2'>|</span>}
+                <hr className="h-px bg-gray-400 mt-2 mb-2" />
+                <div className="flex">
+                    <p className="font-bold text-white pr-3">Director</p>
+                    {fullCredits?.crew.director?.map((director: IMovieCrewCredits, index: number) => (
+                      <div key={index} className='flex'>
+                        <p className="text-gray-400">{director.name}</p>
+                        {index < fullCredits.crew.director.length - 1 && <span className='text-gray-500 px-2'>|</span>}
+                      </div>
+                    ))}
                 </div>
-              ))}
+                <hr className="h-px bg-gray-400 mt-2 mb-2" />
+                <div className="flex">
+                  <p className="font-bold text-white pr-3">Writers</p>
+                  {fullCredits?.crew.writer?.map((writer: IMovieCrewCredits, index: number) => (
+                    <div key={index} className='flex'>
+                      <p className="text-gray-400">{writer.name}</p>
+                      {index < fullCredits.crew.writer?.length - 1 && <span className='text-gray-500 px-2'>|</span>}
+                    </div>
+                  ))}
+                </div>
+                <hr className="h-px bg-gray-400 mt-2 mb-2" />
+                <div className="flex">
+                  <p className="font-bold text-white pr-3">Stars</p>
+                  {fullCredits?.cast.slice(0, 3).map((castMember: IMovieCastCredits, index: number) => (
+                    <div key={index} className='flex'>
+                      <p className="text-gray-400">{castMember.name}</p>
+                      {index < 2 && <span className='text-gray-500 px-2'>|</span>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className='grid place-item items-center justify-center ml-4'>
+                {currentUser &&       
+                  !isInFavorites ?
+                    <button onClick={handleAddToFavorites} className="bg-indigo-700 hover:bg-indigo-600 shadow-xl w-60 transition-all text-white font-normal py-2 px-4 rounded-lg">
+                      Add to Favorites
+                    </button>
+                    :
+                    <button disabled className="bg-indigo-700 hover:bg-indigo-600 w-60 shadow-xl transition-all text-white font-normal py-2 px-4 rounded-lg">
+                      In Favorites
+                    </button>
+                }
+              </div>
             </div>
           </div>
         </div>
