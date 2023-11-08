@@ -207,6 +207,20 @@ const MovieDetail: React.FC = () => {
                 <p className='text-gray-700'>{trivia.text}</p>
               </div>
             ))}
+            {movieTrivia?.spoilt.slice(0, 5).map((trivia: ITriviaSpoilt, index) => (
+              <div
+                className="mx-5 my-4 max-w-2xl overflow-hidden rounded-md bg-slate-200 px-8 py-5 shadow-lg relative group"
+                key={index}
+              >
+                <div className="absolute inset-0 flex items-center justify-center bg-indigo-700 bg-opacity-60 transition-opacity opacity-100 group-hover:opacity-0">
+                  <p className="text-base text-white font-light">Spoiler Trivia! Hover to reveal.</p>
+                </div>
+                <p className="text-gray-700 opacity-0 group-hover:opacity-100">
+                  {trivia.text}
+                </p>
+              </div>
+            ))}
+
           </div>
           <div className="py-5">
             <div className="flex items-center">
