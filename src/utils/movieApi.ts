@@ -60,4 +60,23 @@ const getTrivia = async (movieId: string) => {
   }
 }
 
-export { getOverviewDetails, getFullCredits, getTrivia };
+const getImages = async (movieId: string) => {
+  try {
+    const response = await axios.get('https://imdb8.p.rapidapi.com/title/get-images', {
+      params: {
+        tconst: movieId
+      },
+      headers: {
+        'X-RapidAPI-Key': API_KEY,
+        'X-RapidAPI-Host': API_HOST
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Images Error" + error)
+    throw error
+  }
+}
+
+export { getOverviewDetails, getFullCredits, getTrivia, getImages };

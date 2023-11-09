@@ -65,3 +65,13 @@ export interface ITrivia {
   spoilt: ITriviaSpoilt[];
   unspoilt: ITriviaUnspoilt[];
 }
+
+export interface IImages {
+  id: string;
+  caption: string;
+  url: string;
+}
+
+export interface IMovieImages {
+  images: IImages[]
+}

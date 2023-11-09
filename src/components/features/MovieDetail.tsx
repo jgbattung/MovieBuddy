@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { RouteParams } from '../../interfaces/routes';
-import { getOverviewDetails, getFullCredits, getTrivia } from '../../utils/movieApi';
-import { IMovieOverviewDetails, IMovieFullCredits, IMovieCastCredits, IMovieCrewCredits, ITrivia, ITriviaSpoilt, ITriviaUnspoilt } from '../../interfaces/movieData';
+import { getOverviewDetails, getFullCredits, getTrivia, getImages } from '../../utils/movieApi';
+import { IMovieOverviewDetails, IMovieFullCredits, IMovieCastCredits, IMovieCrewCredits, ITrivia, ITriviaSpoilt, ITriviaUnspoilt, IMovieImages, IImages } from '../../interfaces/movieData';
 import { formatQid, imageNotFoundLink } from '../../utils/utils';
 import { auth, db } from '../../firebase';
 import { addToFavorites } from '../../utils/firebaseFunctions';
@@ -17,6 +17,7 @@ const MovieDetail: React.FC = () => {
   const [overviewDetails, setOverviewDetails] = useState<IMovieOverviewDetails>();
   const [fullCredits, setFullCredits] = useState<IMovieFullCredits>();
   const [movieTrivia, setMovieTrivia] = useState<ITrivia>();
+  const [movieImages, setMovieImages] = useState<IMovieImages>();
   const [isInFavorites, setIsInFavorites] = useState(false);
   const isLoading = useSelector((state: RootState) => state.loading.isLoading);
   const dispatch = useDispatch();
@@ -26,12 +27,14 @@ const MovieDetail: React.FC = () => {
     const fetchData = async () => {
       try {
         dispatch(setLoading(true));
-        const movieDetails = await getOverviewDetails(movieId)
+        const movieDetails = await getOverviewDetails(movieId);
         const movieCredits = await getFullCredits(movieId);
-        const movieTrivia = await getTrivia(movieId)
+        const movieTrivia = await getTrivia(movieId);
+        const movieImages = await getImages(movieId);
         setOverviewDetails(movieDetails);
         setFullCredits(movieCredits);
         setMovieTrivia(movieTrivia);
+        setMovieImages(movieImages);
         dispatch(setLoading(false));
       } catch (error) {
         throw error;
@@ -86,8 +89,6 @@ const MovieDetail: React.FC = () => {
     return `${hours}h ${minutes}m`;
   }
 
-  console.log(movieTrivia?.spoilt);
-
   return (
     <div>
       {!isLoading ? 
@@ -123,7 +124,7 @@ const MovieDetail: React.FC = () => {
           </div>
           <div className="mb-8">
             <div className="mb-2">
-              {overviewDetails?.genres.map((genre, index) => (
+              {overviewDetails?.genres.map((genre: string, index: number) => (
                 <button 
                   key={index}
                   className="rounded-full border-2 border-gray-400 px-3 mr-2 py-1.5 text text-white font-semibold"
@@ -190,6 +191,17 @@ const MovieDetail: React.FC = () => {
               <p className="font-bold text-2xl">&nbsp;Photos</p>
             </div>
             {/* <!-- CAROUSEL HERE --> */}
+            <div className='carousel w-1/2 py-5'>
+              {movieImages?.images.slice(0,10).map((image: IImages, index: number, array: IImages[]) => (
+                <div id={image.id} className='carousel-item relative w-full object-cover items-center justify-center place-items-center'>
+                  <img src={image.url} alt={image.caption} className='rounded-md h-80' />
+                  <div className='absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2'>
+                  <a href={index > 0 ? `#${array[index - 1].id}` : `#${array[array.length - 1].id}`} className='btn btn-circle'>❮</a>
+                  <a href={index < array.length - 1 ? `#${array[index + 1].id}` : `#${array[0].id}`} className='btn btn-circle'>❯</a>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="py-5">
             <div className="flex items-center">
