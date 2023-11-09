@@ -22,11 +22,11 @@ const getOverviewDetails = async (movieId: string) => {
   }
 }
 
-const getFullCredits = async (moveId: string) => {
+const getFullCredits = async (movieId: string) => {
   try {
     const response = await axios.get('https://imdb8.p.rapidapi.com/title/get-full-credits', {
       params: {
-        tconst: moveId
+        tconst: movieId
       },
       headers: {
         'X-RapidAPI-Key': API_KEY,
@@ -41,4 +41,23 @@ const getFullCredits = async (moveId: string) => {
   }
 }
 
-export { getOverviewDetails, getFullCredits };
+const getTrivia = async (movieId: string) => {
+  try {
+    const response = await axios.get('https://imdb8.p.rapidapi.com/title/get-trivia', {
+      params: {
+        tconst: movieId
+      },
+      headers: {
+        'X-RapidAPI-Key': API_KEY,
+        'X-RapidAPI-Host': API_HOST
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Trivia Error" + error)
+    throw error
+  }
+}
+
+export { getOverviewDetails, getFullCredits, getTrivia };

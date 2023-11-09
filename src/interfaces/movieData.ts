@@ -49,3 +49,19 @@ export interface IMovieFullCredits {
     writer: IMovieCrewCredits[];
   }
 }
+
+export interface ITriviaSpoilt {
+  id: string;
+  text: string;
+}
+
+export interface ITriviaUnspoilt {
+  id: string;
+  text: string;
+}
+
+export interface ITrivia {
+  id: string;
+  spoilt: ITriviaSpoilt[];
+  unspoilt: ITriviaUnspoilt[];
+}
