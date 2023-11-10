@@ -9,9 +9,11 @@ export interface IMovieOverviewDetails {
     numberOfEpisodes?: number;
     seriesStartYear?: number;
     seriesEndYear?: number;
+    runningTimeInMinutes? : number;
   },
   ratings: {
     rating: number;
+    ratingCount?: number;
   },
   genres: string[];
   plotSummary?: {
@@ -44,5 +46,32 @@ export interface IMovieFullCredits {
   cast: IMovieCastCredits[];
   crew: {
     director: IMovieCrewCredits[];
+    writer: IMovieCrewCredits[];
   }
+}
+
+export interface ITriviaSpoilt {
+  id: string;
+  text: string;
+}
+
+export interface ITriviaUnspoilt {
+  id: string;
+  text: string;
+}
+
+export interface ITrivia {
+  id: string;
+  spoilt: ITriviaSpoilt[];
+  unspoilt: ITriviaUnspoilt[];
+}
+
+export interface IImages {
+  id: string;
+  caption: string;
+  url: string;
+}
+
+export interface IMovieImages {
+  images: IImages[]
 }
