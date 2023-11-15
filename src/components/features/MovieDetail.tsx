@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { RouteParams } from '../../interfaces/routes';
-import { getOverviewDetails, getFullCredits, getTrivia, getImages } from '../../utils/movieApi';
-import { IMovieOverviewDetails, IMovieFullCredits, IMovieCastCredits, IMovieCrewCredits, ITrivia, ITriviaSpoilt, ITriviaUnspoilt, IMovieImages, IImages } from '../../interfaces/movieData';
+import { getOverviewDetails, getFullCredits, getTrivia, getImages, getSimilarFilms } from '../../utils/movieApi';
+import { IMovieOverviewDetails, IMovieFullCredits, IMovieCastCredits, IMovieCrewCredits, ITrivia, ITriviaSpoilt, ITriviaUnspoilt, IMovieImages, IImages, ISimilarFilms } from '../../interfaces/movieData';
 import { formatQid, imageNotFoundLink } from '../../utils/utils';
 import { auth, db } from '../../firebase';
 import { addToFavorites } from '../../utils/firebaseFunctions';
@@ -27,14 +27,35 @@ const MovieDetail: React.FC = () => {
     const fetchData = async () => {
       try {
         dispatch(setLoading(true));
-        const movieDetails = await getOverviewDetails(movieId);
-        const movieCredits = await getFullCredits(movieId);
-        const movieTrivia = await getTrivia(movieId);
-        const movieImages = await getImages(movieId);
-        setOverviewDetails(movieDetails);
-        setFullCredits(movieCredits);
-        setMovieTrivia(movieTrivia);
-        setMovieImages(movieImages);
+
+        if (!overviewDetails) {
+          const movieDetails = await getOverviewDetails(movieId);
+          console.log("movieDetails");
+          setOverviewDetails(movieDetails);
+        }
+
+        if (!fullCredits) {
+          const movieCredits = await getFullCredits(movieId);
+          console.log("movieCredits");
+          setFullCredits(movieCredits);
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 200));
+
+        if (!movieTrivia) {
+          const movieTrivia = await getTrivia(movieId);
+          console.log("movieTrivia");
+          setMovieTrivia(movieTrivia);
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 200));
+
+        if (!movieImages) {
+          const movieImages = await getImages(movieId);
+          console.log("movieImages");
+          setMovieImages(movieImages);
+        }
+
         dispatch(setLoading(false));
       } catch (error) {
         throw error;
