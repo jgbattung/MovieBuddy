@@ -1,4 +1,5 @@
 export interface IMovieOverviewDetails {
+  id: string;
   title: {
     image: {
       url: string;
@@ -74,4 +75,8 @@ export interface IImages {
 
 export interface IMovieImages {
   images: IImages[]
+}
+
+export interface ISimilarFilms {
+  [index: number]: string;
 }

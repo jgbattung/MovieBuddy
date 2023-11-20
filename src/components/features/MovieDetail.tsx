@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setLoading } from '../../store/actions/loadingActions';
 import { RootState } from '../../store';
 import { addFavoriteMovie } from '../../store/actions/userActions';
+import { Link } from 'react-router-dom';
 
 const MovieDetail: React.FC = () => {
   const { movieId } = useParams<RouteParams>();
@@ -19,6 +20,7 @@ const MovieDetail: React.FC = () => {
   const [movieTrivia, setMovieTrivia] = useState<ITrivia>();
   const [movieImages, setMovieImages] = useState<IMovieImages>();
   const [isInFavorites, setIsInFavorites] = useState(false);
+  const [similarFilms, setSimilarFilms] = useState<IMovieOverviewDetails[]>();
   const isLoading = useSelector((state: RootState) => state.loading.isLoading);
   const dispatch = useDispatch();
   const currentUser = auth.currentUser;
@@ -30,13 +32,11 @@ const MovieDetail: React.FC = () => {
 
         if (!overviewDetails) {
           const movieDetails = await getOverviewDetails(movieId);
-          console.log("movieDetails");
           setOverviewDetails(movieDetails);
         }
 
         if (!fullCredits) {
           const movieCredits = await getFullCredits(movieId);
-          console.log("movieCredits");
           setFullCredits(movieCredits);
         }
 
@@ -44,7 +44,6 @@ const MovieDetail: React.FC = () => {
 
         if (!movieTrivia) {
           const movieTrivia = await getTrivia(movieId);
-          console.log("movieTrivia");
           setMovieTrivia(movieTrivia);
         }
 
@@ -52,8 +51,32 @@ const MovieDetail: React.FC = () => {
 
         if (!movieImages) {
           const movieImages = await getImages(movieId);
-          console.log("movieImages");
           setMovieImages(movieImages);
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 200));
+
+        if (!similarFilms) {
+          const similarFilmsArray = await getSimilarFilms(movieId);
+          const regex = /\/title\/(tt\d+)\//;
+          const similarFilmsIds: [string] = similarFilmsArray.slice(0,5).map((film: string) => {
+            const match = film.match(regex);
+            return match && match[1] ? match[1] : null;
+          });
+
+          await new Promise(resolve => setTimeout(resolve, 200));
+
+          const fetchSimilarFilmsDetails = async () => {
+            try {
+              const promises = similarFilmsIds.map((movieId) => getOverviewDetails(movieId));
+              const similarFilmDetails = await Promise.all(promises);
+              setSimilarFilms(similarFilmDetails);
+            } catch (error) {
+              throw error;
+            }
+          }
+
+          fetchSimilarFilmsDetails();
         }
 
         dispatch(setLoading(false));
@@ -110,6 +133,12 @@ const MovieDetail: React.FC = () => {
     return `${hours}h ${minutes}m`;
   }
 
+  const extractMovieId = (id: string) => {
+    const movieIdRegex = /\/title\/(tt\d+)\//;
+    const match = id.match(movieIdRegex);
+    return match && match[1] ? match[1] : null;
+  };
+
   return (
     <div>
       {!isLoading ? 
@@ -124,7 +153,7 @@ const MovieDetail: React.FC = () => {
               <div className="text-sm font-bold text-gray-400 tracking-widest">IMDb Rating</div>
               <div className="flex">
                 <div className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="yellow" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray" className="h-12 w-12">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="yellow" viewBox="0 0 24 24" strokeWidth="0.5" stroke="gray" className="h-12 w-12">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
                   </svg>
                   <div className="flex flex-col pl-2">
@@ -211,7 +240,6 @@ const MovieDetail: React.FC = () => {
               <p className="font-extrabold text-3xl text-indigo-800">|</p>
               <p className="font-bold text-2xl">&nbsp;Photos</p>
             </div>
-            {/* <!-- CAROUSEL HERE --> */}
             <div className='carousel w-1/2 py-5'>
               {movieImages?.images.slice(0,10).map((image: IImages, index: number, array: IImages[]) => (
                 <div id={image.id} className='carousel-item relative w-full object-cover items-center justify-center place-items-center'>
@@ -252,7 +280,7 @@ const MovieDetail: React.FC = () => {
               <p className="font-bold text-2xl pl-3">Did you know?</p>
             </div>
             {movieTrivia?.unspoilt.slice(0,5).map((trivia: ITriviaUnspoilt) => (
-                <div className="bg-slate-200 max-w-2xl overflow-hidden shadow-lg rounded-md mx-5 my-4 px-8 py-5">
+              <div className="bg-slate-200 max-w-2xl overflow-hidden shadow-lg rounded-md mx-5 my-4 px-8 py-5">
                 <p className='text-gray-700'>{trivia.text}</p>
               </div>
             ))}
@@ -275,6 +303,27 @@ const MovieDetail: React.FC = () => {
             <div className="flex items-center">
               <p className="font-extrabold text-3xl text-indigo-800">|</p>
               <p className="font-bold text-2xl">&nbsp;More like this</p>
+            </div>
+            <div className='flex gap-4 items-center pt-4'>
+              {similarFilms?.map((similarFilm: IMovieOverviewDetails) => {
+                const movieId = extractMovieId(similarFilm.id);
+
+                return (
+                  <Link to={`/moviedetail/${movieId}`} key={similarFilm.id}>
+                    <div className='card w-60 max-h-96 glass px-2 py-4'>
+                      <figure><img src={similarFilm.title.image.url} alt={similarFilm.title.title}/></figure>
+                      <div className='flex items-center pt-2'>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="yellow" viewBox="0 0 24 24" strokeWidth="0.3" stroke="gray" className="h-7 w-7 pl-1">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                        </svg>
+                        <p className='text-gray-500 font-light pl-1'>{similarFilm.ratings.rating}</p>
+                      </div>
+                      <p className='pl-1 card-title text-gray-700 font-semibold text-base'>{similarFilm.title.title}</p>
+                      <p className='pl-1 text-gray-500'>{similarFilm.title.year}</p>
+                    </div>
+                  </Link>
+                )
+              })}
             </div>
           </div>
         </div>
