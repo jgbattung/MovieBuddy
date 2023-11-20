@@ -30,54 +30,45 @@ const MovieDetail: React.FC = () => {
       try {
         dispatch(setLoading(true));
 
-        if (!overviewDetails) {
-          const movieDetails = await getOverviewDetails(movieId);
-          setOverviewDetails(movieDetails);
-        }
+        const movieDetails = await getOverviewDetails(movieId);
+        setOverviewDetails(movieDetails);
 
-        if (!fullCredits) {
-          const movieCredits = await getFullCredits(movieId);
-          setFullCredits(movieCredits);
-        }
+        const movieCredits = await getFullCredits(movieId);
+        setFullCredits(movieCredits);
+
 
         await new Promise(resolve => setTimeout(resolve, 200));
 
-        if (!movieTrivia) {
-          const movieTrivia = await getTrivia(movieId);
-          setMovieTrivia(movieTrivia);
-        }
+        const movieTrivia = await getTrivia(movieId);
+        setMovieTrivia(movieTrivia);
 
         await new Promise(resolve => setTimeout(resolve, 200));
 
-        if (!movieImages) {
-          const movieImages = await getImages(movieId);
-          setMovieImages(movieImages);
-        }
+        const movieImages = await getImages(movieId);
+        setMovieImages(movieImages);
 
         await new Promise(resolve => setTimeout(resolve, 200));
 
-        if (!similarFilms) {
-          const similarFilmsArray = await getSimilarFilms(movieId);
-          const regex = /\/title\/(tt\d+)\//;
-          const similarFilmsIds: [string] = similarFilmsArray.slice(0,5).map((film: string) => {
-            const match = film.match(regex);
-            return match && match[1] ? match[1] : null;
-          });
+        const similarFilmsArray = await getSimilarFilms(movieId);
+        const regex = /\/title\/(tt\d+)\//;
+        const similarFilmsIds: [string] = similarFilmsArray.slice(0,5).map((film: string) => {
+          const match = film.match(regex);
+          return match && match[1] ? match[1] : null;
+        });
 
-          await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise(resolve => setTimeout(resolve, 200));
 
-          const fetchSimilarFilmsDetails = async () => {
-            try {
-              const promises = similarFilmsIds.map((movieId) => getOverviewDetails(movieId));
-              const similarFilmDetails = await Promise.all(promises);
-              setSimilarFilms(similarFilmDetails);
-            } catch (error) {
-              throw error;
-            }
+        const fetchSimilarFilmsDetails = async () => {
+          try {
+            const promises = similarFilmsIds.map((movieId) => getOverviewDetails(movieId));
+            const similarFilmDetails = await Promise.all(promises);
+            setSimilarFilms(similarFilmDetails);
+          } catch (error) {
+            throw error;
           }
-
-          fetchSimilarFilmsDetails();
         }
+
+        fetchSimilarFilmsDetails();
 
         dispatch(setLoading(false));
       } catch (error) {
@@ -309,8 +300,8 @@ const MovieDetail: React.FC = () => {
                 const movieId = extractMovieId(similarFilm.id);
 
                 return (
-                  <Link to={`/moviedetail/${movieId}`} key={similarFilm.id}>
-                    <div className='card w-60 max-h-96 glass px-2 py-4'>
+                  <Link to={`/moviedetail/${movieId}`} key={similarFilm.id} className='hover:scale-110 shadow-lg transition ease-in-out delay-100'>
+                    <div className='card w-60 max-h-96 glass px-2 py-4 hover:bg-gray-300 transition ease-in-out delay-100'>
                       <figure><img src={similarFilm.title.image.url} alt={similarFilm.title.title}/></figure>
                       <div className='flex items-center pt-2'>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="yellow" viewBox="0 0 24 24" strokeWidth="0.3" stroke="gray" className="h-7 w-7 pl-1">
