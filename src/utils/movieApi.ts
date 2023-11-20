@@ -79,4 +79,23 @@ const getImages = async (movieId: string) => {
   }
 }
 
-export { getOverviewDetails, getFullCredits, getTrivia, getImages };
+const getSimilarFilms = async (movieId: string) => {
+  try {
+    const response = await axios.get('https://imdb8.p.rapidapi.com/title/get-more-like-this', {
+      params: {
+        tconst: movieId
+      },
+      headers: {
+        'X-RapidAPI-Key': API_KEY,
+        'X-RapidAPI-Host': API_HOST
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Similar Films Error" + error)
+    throw error
+  }
+}
+
+export { getOverviewDetails, getFullCredits, getTrivia, getImages, getSimilarFilms };
