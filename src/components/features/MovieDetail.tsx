@@ -78,11 +78,17 @@ const MovieDetail: React.FC = () => {
 
     fetchData();
 
-  }, [movieId, dispatch])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [movieId])
 
-  const handleAddToFavorites = () => {
-    addToFavorites(movieId);
-    dispatch(addFavoriteMovie(movieId));
+  const handleAddToFavorites = async () => {
+    try {
+      await addToFavorites(movieId);
+      dispatch(addFavoriteMovie(movieId));
+      setIsInFavorites(true);
+    } catch (error) {
+      throw error
+    }
   }
 
   useEffect(() => {
@@ -103,7 +109,7 @@ const MovieDetail: React.FC = () => {
 
     checkIfInFavorites();
 
-  }, [movieId]);
+  }, [movieId] );
 
   const convertMinutesToHours = (mins: number | undefined) => {
     if (!mins) {
@@ -174,7 +180,7 @@ const MovieDetail: React.FC = () => {
                 </button>
               ))}
             </div>
-            <div className='grid grid-cols-4'>
+            <div className='grid grid-cols-4 gap-5'>
               <div className='col-span-3'>
                 <div>
                   <p className="text-base text-white">{overviewDetails?.plotSummary ? overviewDetails.plotSummary.text : overviewDetails?.plotOutline.text}</p>
@@ -217,7 +223,7 @@ const MovieDetail: React.FC = () => {
                       Add to Favorites
                     </button>
                     :
-                    <button disabled className="bg-indigo-700 hover:bg-indigo-600 w-60 shadow-xl transition-all text-white font-normal py-2 px-4 rounded-lg">
+                    <button disabled className="bg-indigo-900 w-60 shadow-xl transition-all text-white font-normal py-2 px-4 rounded-lg">
                       In Favorites
                     </button>
                 }
