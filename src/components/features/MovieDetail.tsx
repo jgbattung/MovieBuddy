@@ -167,7 +167,7 @@ const MovieDetail: React.FC = () => {
             </div>
             {movieImages?.images.slice(3, 5).map((image: IImages, index: number) => (
               <div key={index}>
-                <img src={image.url} alt={image.caption} className="h-96 object-cover" />
+                <img src={image.url} alt={image.caption} className="w-full h-96 object-cover" />
               </div>
             ))}
           </div>
