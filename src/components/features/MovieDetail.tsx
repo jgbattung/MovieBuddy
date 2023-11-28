@@ -161,10 +161,13 @@ const MovieDetail: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-1 w-full pb-3">
-            {movieImages?.images.slice(4, 6).map((image: IImages, index: number) => (
-              <div key={index} className={`row-span-2`}>
-                <img src={image.url} alt={index.toString()} className="h-full w-full object-cover" />
+          <div className="grid grid-cols-3 gap-1 w-full pb-3 items-center justify-center">
+            <div>
+              <img src={overviewDetails?.title.image.url} alt={overviewDetails?.title.title} className="w-full h-96 object-cover" />
+            </div>
+            {movieImages?.images.slice(3, 5).map((image: IImages, index: number) => (
+              <div key={index}>
+                <img src={image.url} alt={image.caption} className="h-96 object-cover" />
               </div>
             ))}
           </div>
@@ -197,10 +200,10 @@ const MovieDetail: React.FC = () => {
                 <hr className="h-px bg-gray-400 mt-2 mb-2" />
                 <div className="flex">
                   <p className="font-bold text-white pr-3">Writers</p>
-                  {fullCredits?.crew.writer?.map((writer: IMovieCrewCredits, index: number) => (
+                  {fullCredits?.crew.writer?.slice(0,3).map((writer: IMovieCrewCredits, index: number) => (
                     <div key={index} className='flex'>
                       <p className="text-gray-400">{writer.name}</p>
-                      {index < fullCredits.crew.writer?.length - 1 && <span className='text-gray-500 px-2'>|</span>}
+                      {index < 2 && <span className='text-gray-500 px-2'>|</span>}
                     </div>
                   ))}
                 </div>
