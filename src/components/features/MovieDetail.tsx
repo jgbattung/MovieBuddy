@@ -190,10 +190,10 @@ const MovieDetail: React.FC = () => {
                 <hr className="h-px bg-gray-400 mt-2 mb-2" />
                 <div className="flex">
                     <p className="font-bold text-white pr-3">Director</p>
-                    {fullCredits?.crew.director?.map((director: IMovieCrewCredits, index: number) => (
+                    {fullCredits?.crew.director?.slice(0, 3).map((director: IMovieCrewCredits, index: number) => (
                       <div key={index} className='flex'>
                         <p className="text-gray-400">{director.name}</p>
-                        {index < fullCredits.crew.director.length - 1 && <span className='text-gray-500 px-2'>|</span>}
+                        {index < 2 && <span className='text-gray-500 px-2'>|</span>}
                       </div>
                     ))}
                 </div>
