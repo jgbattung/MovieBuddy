@@ -161,13 +161,12 @@ const MovieDetail: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between mt-2 mb-4">
-            <div className="w-1/3">
-              <img className="w-full" src="https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg" />
-            </div>
-            <div className="w-2/3 object">
-              <img className="w-full" src="https://m.media-amazon.com/images/M/MV5BZGVmZjg5NTEtMjJhNS00OWJjLThjOTYtZTk0NjUwMjA3MjkyXkEyXkFqcGdeQXVyMzQ3Nzk5MTU@._V1_.jpg" />
-            </div>
+          <div className="grid grid-cols-2 gap-1 w-full pb-3">
+            {movieImages?.images.slice(4, 6).map((image: IImages, index: number) => (
+              <div key={index} className={`row-span-2`}>
+                <img src={image.url} alt={index.toString()} className="h-full w-full object-cover" />
+              </div>
+            ))}
           </div>
           <div className="mb-8">
             <div className="mb-2">
