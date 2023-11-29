@@ -34,6 +34,7 @@ const RegisterForm: React.FC = () => {
           email: email,
           firstName: firstName,
           lastName: lastName,
+          favorites: [],
         })
         history.push('/login')
       }
