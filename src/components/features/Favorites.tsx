@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { getOverviewDetails, getFullCredits } from '../../utils/movieApi';
 import { useHistory } from 'react-router';
 import { IMovieFullCredits, IMovieOverviewDetails } from '../../interfaces/movieData';
+import { setLoading } from '../../store/actions/loadingActions';
+
 
 const Favorites: React.FC = () => {
   const userData = useSelector((state: RootState) => state.userData)
@@ -12,56 +14,72 @@ const Favorites: React.FC = () => {
   const [favoriteMoviesCrew, setFavoriteMoviesCrew] = useState<IMovieFullCredits[]>([])
   const [errorFetchingMovies, setErrorFetchingMovies] = useState<boolean>(false)
   const history = useHistory();
+  const isLoading = useSelector((state: RootState) => state.loading.isLoading);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchFavoriteMovies = async () => {
       try {
-        if (favorites.length === 0) return;
+        if (!favorites || favorites.length === 0) return; 
+        
+        if (favoriteMoviesOverview.length > 0 && favoriteMoviesCrew.length > 0) return;
 
-        const favoriteMovieOverviewDetails = await Promise.all(favorites.map(async (favorite: string) => {
+        const favoriteMovieOverviewDetails = [];
+        const favoriteMovieCrewDetails = [];
+
+        for (const favorite of favorites) {
           try {
-            return await getOverviewDetails(favorite);
+            dispatch(setLoading(true));
+            await new Promise(resolve => setTimeout(resolve, 500));
+            const overviewDetails = await getOverviewDetails(favorite);
+            favoriteMovieOverviewDetails.push(overviewDetails);
+
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            const crewDetails = await getFullCredits(favorite);
+            favoriteMovieCrewDetails.push(crewDetails);
           } catch (error) {
             setErrorFetchingMovies(true);
             console.log("error fetch:", errorFetchingMovies);
             return null
           }
-        }));
+        }
 
         const filteredFavoriteMovieOverviewDetails = favoriteMovieOverviewDetails.filter((movie) => movie !== null);
-
-        const favoriteMovieCrewDetails = await Promise.all(favorites.map(async (favorite: string) => {
-          try {
-            return await getFullCredits(favorite);
-          } catch (error) {
-            console.log("Fave cast error:", error);
-            return null
-          }
-        }));
-
         const filteredFavoriteMovieCrewDetails = favoriteMovieCrewDetails.filter((movie) => movie !== null);
 
         setFavoriteMoviesOverview([...filteredFavoriteMovieOverviewDetails]);
         setFavoriteMoviesCrew([...filteredFavoriteMovieCrewDetails]);
+        dispatch(setLoading(false));
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchFavoriteMovies();
-  }, [errorFetchingMovies, favorites, history.location.pathname]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [favorites, history.location.pathname]);
 
   return (
     <div className='mx-80 mt-6'>
       <div className='grid grid-cols-4 h-screen'>
         <div className='col-span-3 bg-slate-800'>
           <div className='bg-black text-white'>
-            <p className='pl-4 pt-4 text-4xl font-semibold'>Your Favorites</p>
-            <p className='pl-4 pb-4 text-gray-400 font-thin text-sm'>{favorites.length} Titles</p>
+            <p className='pl-4 pt-4 pb-2 text-4xl font-semibold'>Your Favorites</p>
+            {favorites ? (
+              <p className='pl-4 pb-4 text-gray-400 font-thin text-sm'>{`${favorites.length} Titles`}</p>
+            ) : (
+              <p className='pl-4 pb-4 text-gray-400 font-thin text-sm'></p>
+            )}
           </div>
           <div className='px-5'>
             {errorFetchingMovies ? (
-              <p className='pt-10 px-8 text-center text-gray-300 font-mono'>There was an error in displaying your favorite movies. Please try again later.</p>
+              <p className='pt-20 px-8 text-center text-gray-300 font-mono'>There was an error in displaying your favorite movies. Please try again later.</p>
+            ) : isLoading ? (
+              <div className="flex flex-col justify-center items-center pt-7">
+                <span className="loading loading-bars loading-lg"></span>
+                <p className='pt-3 text-gray-300 text-base font-medium'>Loading your favorite movies</p>
+              </div>
             ) : (
               favoriteMoviesOverview.map((movie: IMovieOverviewDetails, index) => {
                 if (!movie) {
