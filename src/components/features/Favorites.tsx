@@ -5,6 +5,7 @@ import { getOverviewDetails, getFullCredits } from '../../utils/movieApi';
 import { useHistory } from 'react-router';
 import { IMovieFullCredits, IMovieOverviewDetails } from '../../interfaces/movieData';
 import { setLoading } from '../../store/actions/loadingActions';
+import { Link } from 'react-router-dom';
 
 
 const Favorites: React.FC = () => {
@@ -64,12 +65,12 @@ const Favorites: React.FC = () => {
     <div className='mx-80 mt-6'>
       <div className='grid grid-cols-4 h-screen'>
         <div className='col-span-3 bg-slate-800'>
-          <div className='bg-black text-white'>
-            <p className='pl-4 pt-4 pb-2 text-4xl font-semibold'>Your Favorites</p>
+          <div className=' bg-slate-900 text-white border-b border-white'>
+            <p className='pl-7 pt-7 pb-2 text-4xl font-semibold'>Your Favorites</p>
             {favorites ? (
-              <p className='pl-4 pb-4 text-gray-400 font-thin text-sm'>{`${favorites.length} Titles`}</p>
+              <p className='pl-7 pb-7 text-gray-400 font-thin text-base'>{`${favorites.length} Titles`}</p>
             ) : (
-              <p className='pl-4 pb-4 text-gray-400 font-thin text-sm'></p>
+              <p className='pl-7 pb-7 text-gray-400 font-thin text-base'></p>
             )}
           </div>
           <div className='px-5'>
@@ -127,9 +128,11 @@ const Favorites: React.FC = () => {
             )}
           </div>
         </div>
-        <div className='bg-green-500'>
-          <p className='pt-4 pl-4 text-white'>Welcome back, {firstName}!</p>
-          <p className='pl-4 text-white'>{email}</p>
+        <div className='border-l border-white bg-slate-900 pl-7'>
+          <p className='pt-20 text-gray-200 text-2xl font-medium'>Welcome back, {firstName}!</p>
+          <div className='pt-7'>
+            <Link to='/homepage' className='text-gray-400 text-base font-semibold hover:text-gray-200 transition-all'>Find new films to add to Your Favorites!</Link>
+          </div>
         </div>
       </div>
     </div>
