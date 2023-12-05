@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { auth, db } from '../../firebase';
 import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore';
 import { getErrorMessage } from '../../utils';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { RootState } from '../../store';
 import { useSelector } from 'react-redux';
 import { setLoading } from '../../store/actions/loadingActions';
@@ -18,8 +18,11 @@ const RegisterForm: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const isLoading = useSelector((state: RootState) => state.loading.isLoading);
 
+  const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const isRegistrationPage = location.pathname === '/registration';
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
@@ -51,10 +54,13 @@ const RegisterForm: React.FC = () => {
   }
 
   return (
-<div className="mx-auto w-1/3 overflow-hidden rounded-lg bg-white shadow-lg p-10">
+    <div className={`${isRegistrationPage ? 'w-1/3' : 'w-2/3'} overflow-hidden rounded-lg bg-white shadow-lg p-10`}>
       <div className="w-full p-8">
-        <h2 className="text-center text-4xl font-bold text-gray-700">MovieBuddy</h2>
-        <div className="mt-4 flex items-center justify-between">
+        {isRegistrationPage ? (
+          <h2 className="text-center text-4xl font-bold text-gray-700">MovieBuddy</h2>
+        ) : ('')
+        }
+        <div className={`${isRegistrationPage ? 'mt-4' : ''} flex items-center justify-between`}>
           <span className="w-1/5 border-b lg:w-1/4"></span>
           <p className="text-center text-xs uppercase text-gray-500">Create a new account</p>
           <span className="w-1/5 border-b lg:w-1/4"></span>
@@ -118,7 +124,7 @@ const RegisterForm: React.FC = () => {
         <div className="mt-4 flex items-center justify-center">
           <p className="text-xs text-gray-500">
             Already have an account?
-            <Link to='/registration' className="text-xs font-semibold text-gray-500">&nbsp;Login here</Link>
+            <Link to='/login' className="text-xs font-semibold text-gray-500">&nbsp;Login here</Link>
           </p>
         </div>
       </div>
