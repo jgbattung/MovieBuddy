@@ -55,9 +55,6 @@ const Header: React.FC = () => {
                 <Link to="/homepage" className="block py-2 pl-3 pr-4 mx-8 text-white hover:text-indigo-400">Home</Link>
               </li>
               <li>
-                <Link to="/profile" className="block py-2 pl-3 pr-4 mx-8 text-white hover:text-indigo-400">Profile</Link>
-              </li>
-              <li>
                 <Link to="/favorites" className="block py-2 pl-3 pr-4 mx-8 text-white hover:text-indigo-400">Favorites</Link>
               </li>
             </>
