@@ -3,7 +3,6 @@ import Favorites from "../pages/FavoritesPage";
 import HomePage from "../pages/HomePage";
 import LandingPage from "../pages/LandingPage";
 import MovieDetailPage from "../pages/MovieDetailPage";
-import UserProfile from "../pages/UserProfile";
 import LoginPage from "../pages/LoginPage";
 import RegistrationPage from "../pages/RegistrationPage";
 
@@ -30,12 +29,6 @@ const routes: IRoute[] = [
     path: '/homepage',
     name: 'Home Page',
     component: HomePage,
-    exact: true,
-  },
-  {
-    path: '/profile',
-    name: 'Profile Page',
-    component: UserProfile,
     exact: true,
   },
   {
