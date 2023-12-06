@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 const Favorites: React.FC = () => {
   const userData = useSelector((state: RootState) => state.userData)
-  const { firstName, lastName, email, favorites } = userData;
+  const { firstName, favorites } = userData;
   const [favoriteMoviesOverview, setFavoriteMoviesOverview] = useState<IMovieOverviewDetails[]>([])
   const [favoriteMoviesCrew, setFavoriteMoviesCrew] = useState<IMovieFullCredits[]>([])
   const [errorFetchingMovies, setErrorFetchingMovies] = useState<boolean>(false)
@@ -31,11 +31,11 @@ const Favorites: React.FC = () => {
         for (const favorite of favorites) {
           try {
             dispatch(setLoading(true));
-            await new Promise(resolve => setTimeout(resolve, 500));
+            await new Promise(resolve => setTimeout(resolve, 200));
             const overviewDetails = await getOverviewDetails(favorite);
             favoriteMovieOverviewDetails.push(overviewDetails);
 
-            await new Promise(resolve => setTimeout(resolve, 500));
+            await new Promise(resolve => setTimeout(resolve, 200));
 
             const crewDetails = await getFullCredits(favorite);
             favoriteMovieCrewDetails.push(crewDetails);
@@ -112,7 +112,7 @@ const Favorites: React.FC = () => {
                         {favoriteMoviesCrew[index]?.cast.slice(0, 3).map((actor, actorIndex) => (
                           <span>
                             {actor.name}
-                            {actorIndex < favoriteMoviesCrew[index].cast.slice(0, 3).length - 1 && ', '}
+                            {actorIndex < favoriteMoviesCrew[index].cast.slice(0, 3).length - 1 && ',\u00A0'}
                           </span>
                         ))}
                       </div>
