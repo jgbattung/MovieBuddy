@@ -1,7 +1,5 @@
 import axios from "axios";
-
-const API_KEY: string = '4f301f98acmsh026731243c74ab5p1c279djsn9b4d74f7f35d';
-const API_HOST: string = 'imdb8.p.rapidapi.com';
+import { API_HOST, API_KEY } from "./utils";
 
 const getOverviewDetails = async (movieId: string) => {
   try {
