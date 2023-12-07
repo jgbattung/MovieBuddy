@@ -15,7 +15,6 @@ export const fetchAndSetUserData = async () => {
       console.log('User does not exist')
     } else {
       const userData = querySnapshot.docs[0].data() as DocumentData;
-      console.log(userData)
       return userData;
     }
   }
@@ -37,7 +36,7 @@ export const addToFavorites = async (movieId: string) => {
         { merge: true }
       );
     } catch (error) {
-      console.log("Cannot add to favorites:", error)
+      throw error;
     }
 
   }

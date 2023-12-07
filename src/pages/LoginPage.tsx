@@ -3,7 +3,6 @@ import IPage from '../interfaces/page'
 import LoginForm from '../components/auth/LoginForm'
 
 const LoginPage: React.FunctionComponent<IPage> = props => {
-  console.log('auth page')
   return (
     <div 
       className='flex items-center justify-center h-screen'       

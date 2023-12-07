@@ -10,6 +10,6 @@ module.exports = {
     backgroundColor: ['responsive', 'hover', 'focus', 'active', 'disabled'],
     textColor: ['responsive', 'hover', 'focus', 'active', 'disabled'],
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 }
 

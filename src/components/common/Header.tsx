@@ -20,7 +20,7 @@ const Header: React.FC = () => {
       dispatch(logoutAction());
       history.push('/');
     } catch (error: any) {
-      console.log('signout error')
+      throw error;
     }
   }
 

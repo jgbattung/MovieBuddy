@@ -42,12 +42,11 @@ const RegisterForm: React.FC = () => {
         history.push('/login')
       }
     } catch (error: any) {
-      console.log(error)
       const regex = /auth\/(.*?)\)/;
       const regexMatch = error.message.match(regex);
       const errorText = regexMatch && regexMatch[1];
       setErrorMessage(getErrorMessage(errorText));
-      console.log(errorText)
+      throw error;
     } finally {
       dispatch(setLoading(false));
     }
