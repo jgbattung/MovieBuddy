@@ -3,7 +3,6 @@ import { useParams } from 'react-router'
 import { RouteParams } from '../../interfaces/routes';
 import { getOverviewDetails, getFullCredits, getTrivia, getImages, getSimilarFilms } from '../../utils/movieApi';
 import { IMovieOverviewDetails, IMovieFullCredits, IMovieCastCredits, IMovieCrewCredits, ITrivia, ITriviaSpoilt, ITriviaUnspoilt, IMovieImages, IImages, ISimilarFilms } from '../../interfaces/movieData';
-import { formatQid, imageNotFoundLink } from '../../utils/utils';
 import { auth, db } from '../../firebase';
 import { addToFavorites } from '../../utils/firebaseFunctions';
 import { collection, getDocs, query, where } from '@firebase/firestore';
@@ -12,6 +11,7 @@ import { setLoading } from '../../store/actions/loadingActions';
 import { RootState } from '../../store';
 import { addFavoriteMovie } from '../../store/actions/userActions';
 import { Link } from 'react-router-dom';
+import personImage from '../../assets/images/person.png';
 
 const MovieDetail: React.FC = () => {
   const { movieId } = useParams<RouteParams>();
@@ -262,7 +262,7 @@ const MovieDetail: React.FC = () => {
                   <div>
                     <img
                       className="rounded-full h-32 w-32 object-cover"
-                      src={castMember?.image ? castMember.image.url : imageNotFoundLink }
+                      src={castMember?.image ? castMember.image.url : personImage }
                       alt={castMember.name} />
                   </div>
                   <div className="flex flex-col pl-4">
