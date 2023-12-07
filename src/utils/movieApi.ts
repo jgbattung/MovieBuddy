@@ -17,7 +17,6 @@ const getOverviewDetails = async (movieId: string) => {
 
     return response.data;
   } catch (error) {
-    console.log("Overview Error" + error)
     throw error
   }
 }
@@ -36,7 +35,6 @@ const getFullCredits = async (movieId: string) => {
 
     return response.data;
   } catch (error) {
-    console.log("Credits Error" + error)
     throw error
   }
 }
@@ -55,7 +53,6 @@ const getTrivia = async (movieId: string) => {
 
     return response.data;
   } catch (error) {
-    console.log("Trivia Error" + error)
     throw error
   }
 }
@@ -74,7 +71,6 @@ const getImages = async (movieId: string) => {
 
     return response.data;
   } catch (error) {
-    console.log("Images Error" + error)
     throw error
   }
 }
@@ -93,7 +89,6 @@ const getSimilarFilms = async (movieId: string) => {
 
     return response.data;
   } catch (error) {
-    console.log("Similar Films Error" + error)
     throw error
   }
 }
