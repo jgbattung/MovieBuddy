@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { auth, db } from '../../firebase';
 import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore';
-import { getErrorMessage } from '../../utils';
+import { getErrorMessage } from '../../utils/utils';
 import { Link } from 'react-router-dom';
 import { useHistory, useLocation } from 'react-router-dom';
 import { RootState } from '../../store';

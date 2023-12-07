@@ -14,10 +14,16 @@ const SearchBar: React.FC = () => {
   const isLoading = useSelector((state: RootState) => state.loading.isLoading);
 
   const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    dispatch(setLoading(true));
-    await dispatch(fetchMovies(searchQuery) as any);
-    dispatch(setLoading(false));
+    e.preventDefault(); 
+
+    try {
+      dispatch(setLoading(true));
+      await dispatch(fetchMovies(searchQuery) as any);
+    } catch (error) {
+      throw error
+    } finally {
+      dispatch(setLoading(false));
+    }
   }
 
   return (
