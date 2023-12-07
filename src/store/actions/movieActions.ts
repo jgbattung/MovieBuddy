@@ -2,6 +2,7 @@ import axios from "axios";
 import { Dispatch } from "react";
 import { MovieActionTypes } from "../../components/common/constants";
 import { Movie, MovieAction } from "../../interfaces/movie";
+import { API_HOST, API_KEY } from "../../utils/utils";
 
 export const fetchMoviesRequest = (): MovieAction => ({
   type: MovieActionTypes.FETCH_MOVIES_REQUEST,
@@ -25,8 +26,8 @@ export const fetchMovies = (searchQuery: string) => {
       const response = await axios.get('https://imdb8.p.rapidapi.com/auto-complete', {
         params: { q: searchQuery },
         headers: {
-          'X-RapidAPI-Key': '4f301f98acmsh026731243c74ab5p1c279djsn9b4d74f7f35d',
-          'X-RapidAPI-Host': 'imdb8.p.rapidapi.com'
+          'X-RapidAPI-Key': API_KEY,
+          'X-RapidAPI-Host': API_HOST,
         },
       });
 

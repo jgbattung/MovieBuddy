@@ -12,3 +12,6 @@ export const formatQid = (qid: string) => {
 };
 
 export const imageNotFoundLink = "https://betravingknows.com/wp-content/uploads/2017/06/video-movie-placeholder-image-grey.png"
+
+export const API_KEY: string = `${process.env.REACT_APP_API_KEY}`;
+export const API_HOST: string = 'imdb8.p.rapidapi.com';

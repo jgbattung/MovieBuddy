@@ -33,14 +33,13 @@ const LoginForm: React.FC = () => {
       const userData = await fetchAndSetUserData()
       if (userData) {
         dispatch(setUserData(userData as IUserData));
-        console.log('Success');
       }
     } catch (error: any) {
       const regex = /auth\/(.*?)\)/;
       const regexMatch = error.message.match(regex);
       const errorText = regexMatch && regexMatch[1];
       setErrorMessage(getErrorMessage(errorText));
-      console.log(error);
+      throw error;
     } finally {
       dispatch(setLoading(false));
     }

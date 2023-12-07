@@ -41,7 +41,6 @@ const Favorites: React.FC = () => {
             favoriteMovieCrewDetails.push(crewDetails);
           } catch (error) {
             setErrorFetchingMovies(true);
-            console.log("error fetch:", errorFetchingMovies);
             return null
           }
         }
@@ -53,7 +52,7 @@ const Favorites: React.FC = () => {
         setFavoriteMoviesCrew([...filteredFavoriteMovieCrewDetails]);
         dispatch(setLoading(false));
       } catch (error) {
-        console.log(error);
+        throw error;
       }
     };
 

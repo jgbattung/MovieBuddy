@@ -1,7 +1,5 @@
 import axios from "axios";
-
-const API_KEY: string = '4f301f98acmsh026731243c74ab5p1c279djsn9b4d74f7f35d';
-const API_HOST: string = 'imdb8.p.rapidapi.com';
+import { API_HOST, API_KEY } from "./utils";
 
 const getOverviewDetails = async (movieId: string) => {
   try {
@@ -17,7 +15,6 @@ const getOverviewDetails = async (movieId: string) => {
 
     return response.data;
   } catch (error) {
-    console.log("Overview Error" + error)
     throw error
   }
 }
@@ -36,7 +33,6 @@ const getFullCredits = async (movieId: string) => {
 
     return response.data;
   } catch (error) {
-    console.log("Credits Error" + error)
     throw error
   }
 }
@@ -55,7 +51,6 @@ const getTrivia = async (movieId: string) => {
 
     return response.data;
   } catch (error) {
-    console.log("Trivia Error" + error)
     throw error
   }
 }
@@ -74,7 +69,6 @@ const getImages = async (movieId: string) => {
 
     return response.data;
   } catch (error) {
-    console.log("Images Error" + error)
     throw error
   }
 }
@@ -93,7 +87,6 @@ const getSimilarFilms = async (movieId: string) => {
 
     return response.data;
   } catch (error) {
-    console.log("Similar Films Error" + error)
     throw error
   }
 }

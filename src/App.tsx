@@ -22,7 +22,6 @@ const App: React.FunctionComponent = () => {
         const userData = await fetchAndSetUserData()
         if (userData) {
           dispatch(setUserData(userData as IUserData));
-          console.log('Success');
         }
 
         if (history && history.location.pathname !== '/homepage') {

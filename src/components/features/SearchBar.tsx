@@ -20,10 +20,6 @@ const SearchBar: React.FC = () => {
     dispatch(setLoading(false));
   }
 
-  useEffect(() => {
-    console.log(isLoading);
-  }, [isLoading]);
-
   return (
     <div className='flex flex-col justify-center'>
       <div className='flex w-full items-center justify-center p-20'>
