@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { RouteParams } from '../../interfaces/routes';
 import { getOverviewDetails, getFullCredits, getTrivia, getImages, getSimilarFilms } from '../../utils/movieApi';
-import { IMovieOverviewDetails, IMovieFullCredits, IMovieCastCredits, IMovieCrewCredits, ITrivia, ITriviaSpoilt, ITriviaUnspoilt, IMovieImages, IImages, ISimilarFilms } from '../../interfaces/movieData';
+import { IMovieOverviewDetails, IMovieFullCredits, IMovieCastCredits, IMovieCrewCredits, ITrivia, ITriviaSpoilt, ITriviaUnspoilt, IMovieImages, IImages } from '../../interfaces/movieData';
 import { auth, db } from '../../firebase';
 import { addToFavorites } from '../../utils/firebaseFunctions';
 import { collection, getDocs, query, where } from '@firebase/firestore';

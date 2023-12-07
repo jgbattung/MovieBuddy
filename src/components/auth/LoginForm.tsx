@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { auth } from '../../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { getErrorMessage } from '../../utils';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from '../../store/actions/authActions';
@@ -11,6 +10,7 @@ import { IUserData } from '../../interfaces/userData';
 import { Link } from 'react-router-dom';
 import { RootState } from '../../store';
 import { setLoading } from '../../store/actions/loadingActions';
+import { getErrorMessage } from '../../utils/utils';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
