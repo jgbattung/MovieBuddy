@@ -267,7 +267,9 @@ const MovieDetail: React.FC = () => {
                   </div>
                   <div className="flex flex-col pl-4">
                     <p className="font-bold text-base">{castMember.name}</p>
-                    <p className="font-light text-gray-500">{castMember.characters[0]}</p>
+                    <p className="font-light text-gray-500">
+                      {castMember.characters?.[0] ?? ""}
+                    </p>
                   </div>
                 </div>
               ))}
