@@ -62,7 +62,7 @@ const Favorites: React.FC = () => {
 
   return (
     <div className='mx-80 mt-6'>
-      <div className={`grid grid-cols-4 ${isLoading ? 'h-screen' : 'h-full'}`}>
+      <div className={`grid grid-cols-4 ${isLoading ? 'h-screen' : favorites.length < 3 ? 'h-screen' : 'h-full'}`}>
         <div className='col-span-3 bg-slate-800'>
           <div className=' bg-slate-900 text-white border-b border-white'>
             <p className='pl-7 pt-7 pb-2 text-4xl font-semibold'>Your Favorites</p>
