@@ -15,6 +15,36 @@ Films API is provided by Rapid API's IMDb API.
 4. **Favorites List**: Users can add films to their favorites and view all of their favorite films in the My Favorites section.
 
 ## Screens
+### Registration Page
+![landing-registration](https://github.com/jgbattung/MovieBuddy/assets/100396329/b39427d6-706a-4148-8168-05f8b8fa31fd)
+
+### Login Page
+![login](https://github.com/jgbattung/MovieBuddy/assets/100396329/f330b8ae-4005-4d19-8d9d-bdb4837b1130)
+
+### Search Movies
+![search-movies](https://github.com/jgbattung/MovieBuddy/assets/100396329/c714bfb4-578e-4cb0-aa9c-97b298de7e00)
+
+### Movie Details
+![movie-detail](https://github.com/jgbattung/MovieBuddy/assets/100396329/d7b96596-22d1-4760-8a7a-84ced05f78fb)
+
+#### Overview Details
+![movie-detail-1](https://github.com/jgbattung/MovieBuddy/assets/100396329/fb6462d1-759a-45d9-b915-0cf9aef71817)
+
+#### Film Images and Cast
+![movie-detail-2](https://github.com/jgbattung/MovieBuddy/assets/100396329/0daa30ee-be62-4ae2-a294-ecc2be4991c0)
+
+#### Film Trivia
+![movie-detail-3](https://github.com/jgbattung/MovieBuddy/assets/100396329/a258e3ca-483a-4fff-b7ea-a5e4d4ed563c)
+
+#### Similar Films
+![movie-detail-4](https://github.com/jgbattung/MovieBuddy/assets/100396329/ef54b179-5bb8-45a2-9fce-72607b89beaa)
+
+### Add to Favorites and My Favorites
+#### Add Film to Favorites
+![add-to-favorites](https://github.com/jgbattung/MovieBuddy/assets/100396329/50bbffae-353c-4aa6-91d3-2a8b5d2b2b11)
+
+#### My Favorites
+![my-faovrites](https://github.com/jgbattung/MovieBuddy/assets/100396329/d15eb270-806b-4df9-8a17-713530672ef3)
 
 
 ## Run the project locally
@@ -37,6 +67,7 @@ npm run start
 ```
 6. Open [localhost:3000](localhost:3000) on your browser.
 
-Enjoy exploring movies with MovieBuddy!
 
-###### This project was created for the Web Developer Bootcamp 2022 Udemy Course
+**Enjoy exploring movies with MovieBuddy!**
+
+###### This project was created as a personal project in 2023.
